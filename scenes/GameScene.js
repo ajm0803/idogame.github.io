@@ -364,59 +364,60 @@ export default class GameScene extends Phaser.Scene {
         if (!isTouchDevice) return;
         
         const { width, height } = this.scale;
-        const btnAlpha = 0.35;
-        const btnSize = 80;
-        const margin = 20;
-        const bottomY = height - margin - btnSize / 2;
+        const btnSize = 110;
+        const marginX = 40;
+        const marginY = 40;
+        const spacing = 20;
+        const btnAlpha = 0.4;
+        const btnAlphaPressed = 0.8;
         
-        // Left side - directional buttons
-        const leftBtnX = margin + btnSize / 2;
-        const rightBtnX = margin + btnSize * 2 + 10;
-        const arrowY = bottomY;
+        const createBtn = (x, y, label, color, onPress, onRelease) => {
+            const container = this.add.container(x, y).setScrollFactor(0).setDepth(2000);
+            const circle = this.add.circle(0, 0, btnSize / 2, color, btnAlpha)
+                .setInteractive({ useHandCursor: true });
+            
+            const text = this.add.text(0, 0, label, { 
+                fontSize: '40px', 
+                color: '#fff',
+                stroke: '#000',
+                strokeThickness: 4
+            }).setOrigin(0.5);
+            
+            container.add([circle, text]);
+            
+            circle.on('pointerdown', () => {
+                circle.setAlpha(btnAlphaPressed);
+                circle.setScale(0.9);
+                onPress();
+            });
+            
+            const release = () => {
+                circle.setAlpha(btnAlpha);
+                circle.setScale(1);
+                onRelease();
+            };
+            
+            circle.on('pointerup', release);
+            circle.on('pointerout', release);
+            
+            return container;
+        };
+
+        const bottomY = height - marginY - btnSize / 2;
         
-        // Left arrow
-        const leftBtn = this.add.circle(leftBtnX, arrowY, btnSize / 2, 0xffffff, btnAlpha)
-            .setScrollFactor(0).setDepth(2000).setInteractive();
-        this.add.text(leftBtnX, arrowY, '◀', { fontSize: '32px', color: '#fff' })
-            .setOrigin(0.5).setScrollFactor(0).setDepth(2001);
+        // Left side: Left & Right
+        const leftX = marginX + btnSize / 2;
+        const rightX = leftX + btnSize + spacing;
         
-        leftBtn.on('pointerdown', () => this.touchLeft = true);
-        leftBtn.on('pointerup', () => this.touchLeft = false);
-        leftBtn.on('pointerout', () => this.touchLeft = false);
+        createBtn(leftX, bottomY, '◀', 0x444444, () => this.touchLeft = true, () => this.touchLeft = false);
+        createBtn(rightX, bottomY, '▶', 0x444444, () => this.touchRight = true, () => this.touchRight = false);
         
-        // Right arrow
-        const rightBtn = this.add.circle(rightBtnX, arrowY, btnSize / 2, 0xffffff, btnAlpha)
-            .setScrollFactor(0).setDepth(2000).setInteractive();
-        this.add.text(rightBtnX, arrowY, '▶', { fontSize: '32px', color: '#fff' })
-            .setOrigin(0.5).setScrollFactor(0).setDepth(2001);
+        // Right side: Run & Jump
+        const jumpX = width - marginX - btnSize / 2;
+        const runX = jumpX - btnSize - spacing;
         
-        rightBtn.on('pointerdown', () => this.touchRight = true);
-        rightBtn.on('pointerup', () => this.touchRight = false);
-        rightBtn.on('pointerout', () => this.touchRight = false);
-        
-        // Right side - action buttons
-        const jumpBtnX = width - margin - btnSize / 2;
-        const runBtnX = width - margin - btnSize * 2 - 10;
-        
-        // Jump button
-        const jumpBtn = this.add.circle(jumpBtnX, arrowY, btnSize / 2, 0x00ff00, btnAlpha)
-            .setScrollFactor(0).setDepth(2000).setInteractive();
-        this.add.text(jumpBtnX, arrowY, '⬆', { fontSize: '32px', color: '#fff' })
-            .setOrigin(0.5).setScrollFactor(0).setDepth(2001);
-        
-        jumpBtn.on('pointerdown', () => this.touchJump = true);
-        jumpBtn.on('pointerup', () => this.touchJump = false);
-        jumpBtn.on('pointerout', () => this.touchJump = false);
-        
-        // Run button
-        const runBtn = this.add.circle(runBtnX, arrowY, btnSize / 2, 0xff6600, btnAlpha)
-            .setScrollFactor(0).setDepth(2000).setInteractive();
-        this.add.text(runBtnX, arrowY, '🏃', { fontSize: '28px', color: '#fff' })
-            .setOrigin(0.5).setScrollFactor(0).setDepth(2001);
-        
-        runBtn.on('pointerdown', () => this.touchRun = true);
-        runBtn.on('pointerup', () => this.touchRun = false);
-        runBtn.on('pointerout', () => this.touchRun = false);
+        createBtn(runX, bottomY, '🏃', 0xff6600, () => this.touchRun = true, () => this.touchRun = false);
+        createBtn(jumpX, bottomY, '⬆', 0x00ff00, () => this.touchJump = true, () => this.touchJump = false);
     }
 
     spawnNightclubItems() {
