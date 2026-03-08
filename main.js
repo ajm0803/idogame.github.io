@@ -14,6 +14,9 @@ const config = {
         width: 1920,
         height: 1080
     },
+    input: {
+        activePointers: 3    // support simultaneous drag + jump + extra
+    },
     physics: {
         default: 'arcade',
         arcade: {
