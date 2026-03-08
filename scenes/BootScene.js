@@ -8,21 +8,26 @@ export default class BootScene extends Phaser.Scene {
     preload() {
         // === PROGRESS BAR ===
         const { width, height } = this.scale;
+        const isMobile = this.sys.game.device.input.touch;
+        const s = isMobile ? 1.5 : 1;
+        const barW = Math.round(400 * s);
+        const barH = Math.round(50 * s);
+        
         const progressBar = this.add.graphics();
         const progressBox = this.add.graphics();
         progressBox.fillStyle(0x222222, 0.8);
-        progressBox.fillRect(width / 2 - 200, height / 2 - 25, 400, 50);
+        progressBox.fillRect(width / 2 - barW / 2, height / 2 - barH / 2, barW, barH);
         
-        const loadingText = this.add.text(width / 2, height / 2 - 60, 'Loading Wedding Quest...', {
+        const loadingText = this.add.text(width / 2, height / 2 - Math.round(60 * s), 'Loading Wedding Quest....', {
             fontFamily: 'Arial',
-            fontSize: '24px',
+            fontSize: `${Math.round(24 * s)}px`,
             color: '#ff69b4'
         }).setOrigin(0.5);
 
         this.load.on('progress', (value) => {
             progressBar.clear();
             progressBar.fillStyle(0xff69b4, 1);
-            progressBar.fillRect(width / 2 - 195, height / 2 - 20, 390 * value, 40);
+            progressBar.fillRect(width / 2 - barW / 2 + 5, height / 2 - barH / 2 + 5, (barW - 10) * value, barH - 10);
         });
 
         this.load.on('complete', () => {
