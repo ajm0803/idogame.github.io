@@ -13,6 +13,12 @@ export default class MenuScene extends Phaser.Scene {
         const oldInputs = document.querySelectorAll('input[style*="z-index"]');
         oldInputs.forEach(el => el.remove());
 
+        // One-time interaction to start music
+        this.input.once('pointerdown', async () => {
+            await audioManager.init();
+            audioManager.startMusic(0); // Start Menu music
+        });
+
         // Background
         this.add.image(width / 2, height / 2, 'background').setDisplaySize(width, height);
         
@@ -20,7 +26,7 @@ export default class MenuScene extends Phaser.Scene {
         this.createBackgroundFlair();
 
         // Title with shadow
-        this.add.text(width / 2 + 4, height / 4 + 4, 'Anneline & Stephens Great\nWedding Quest', {
+        this.add.text(width / 2 + 4, height / 4 + 4, 'Anneline & Stephens Invitation\nWedding Quest', {
             fontFamily: '"Press Start 2P"',
             fontSize: '56px',
             color: '#000000',
@@ -28,7 +34,7 @@ export default class MenuScene extends Phaser.Scene {
             lineSpacing: 15
         }).setOrigin(0.5).setAlpha(0.4);
         
-        const titleText = this.add.text(width / 2, height / 4, 'Anneline & Stephens Great\nWedding Quest', {
+        const titleText = this.add.text(width / 2, height / 4, 'Anneline & Stephens Invitation\nWedding Quest', {
             fontFamily: '"Press Start 2P"',
             fontSize: '56px',
             color: '#ff69b4',
@@ -55,6 +61,7 @@ export default class MenuScene extends Phaser.Scene {
             fontSize: '24px',
             color: '#5e593eff'
         }).setOrigin(0.5);
+    
 
         const savedName = localStorage.getItem('wedding-player-name') || '';
         const input = document.createElement('input');
@@ -93,6 +100,7 @@ export default class MenuScene extends Phaser.Scene {
         
         nextButton.on('pointerdown', async () => {
             await audioManager.init();
+            audioManager.startMusic(0); // Ensure menu music is playing
             const name = input.value.trim();
             if (name.length > 0) {
                 localStorage.setItem('wedding-player-name', name);
@@ -190,14 +198,13 @@ export default class MenuScene extends Phaser.Scene {
             this.scene.start('LeaderboardScene');
         });
 
-        mainMenuLinks.push(startGameLink, leaderboardLink);
-
         const heroLink = createLink(width / 2, height / 2 + 200, 'CHANGE HERO', () => {
             mainMenuContainer.setVisible(false);
             selector.setVisible(false);
             showCharacterSelection();
         });
-        mainMenuLinks.push(heroLink);
+
+        mainMenuLinks.push(startGameLink, leaderboardLink, heroLink);
 
         mainMenuContainer.add(mainMenuLinks);
 

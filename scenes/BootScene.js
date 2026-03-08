@@ -48,23 +48,16 @@ export default class BootScene extends Phaser.Scene {
         this.load.image('brandy', 'https://rosebud.ai/assets/brandy-item.webp?0b9G');
         this.load.image('key', 'https://rosebud.ai/assets/wedding-key-item.webp?7bPp');
         this.load.image('ring', 'https://rosebud.ai/assets/wedding-ring-item.webp?T5rR');
-        this.load.image('church', 'https://rosebud.ai/assets/whimsical-church-venue.webp?LwQf');
         this.load.image('obstacle', 'https://rosebud.ai/assets/park-statue-obstacle.webp?uCZr');
         this.load.image('champagne', 'https://rosebud.ai/assets/champagne-powerup.webp?dTxo');
-        
-        // Flower seller enemy (nightclub)
-        this.load.image('flower-seller', 'https://rosebud.ai/assets/flower-seller.webp?aCXv');
         
         // Park level collectibles & dog
         this.load.image('rose', 'https://rosebud.ai/assets/rose-item.webp?VryA');
         this.load.image('chasing-dog', 'https://rosebud.ai/assets/chasing-dog.webp?EPna');
         
-        // Nightclub level assets
-        this.load.image('nightclub-bg', 'https://rosebud.ai/assets/nightclub-bg.webp?sr4L');
-        this.load.image('dj', 'https://rosebud.ai/assets/dj-character-sprite.webp?o7q6');
-        this.load.image('nightclub-table', 'https://rosebud.ai/assets/nightclub-table.webp?3RS6');
+        // Church assets
+        this.load.image('church', 'https://rosebud.ai/assets/whimsical-church-venue.webp?LwQf');
         this.load.image('exit-door', 'https://rosebud.ai/assets/exit-door.webp?d40K');
-        this.load.image('secret-door', 'https://rosebud.ai/assets/secret-door.webp?21M4');
         
         // Rhythm assets
         this.load.image('rhythm-arrow-up', 'https://rosebud.ai/assets/rhythm-arrow-up.webp?A7fX');
@@ -89,6 +82,9 @@ export default class BootScene extends Phaser.Scene {
     }
 
     create() {
+        // Clear existing leaderboard for a fresh start
+        localStorage.removeItem('wedding-leaderboard');
+        
         this.createCharacterAnims('bride');
         this.createCharacterAnims('groom');
         this.scene.start('MenuScene');

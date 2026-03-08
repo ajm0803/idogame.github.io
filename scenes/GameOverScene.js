@@ -70,7 +70,7 @@ export default class GameOverScene extends Phaser.Scene {
         });
 
         // Level & Time info
-        const levelLabel = this.level === 1 ? 'Nightclub' : `Park ${this.level - 1}`;
+        const levelLabel = 'The Park';
         this.add.text(width / 2, 145, `${levelLabel}  |  ⏱ ${this.completionTime}s`, {
             fontFamily: '"Press Start 2P"',
             fontSize: '24px',
@@ -87,7 +87,7 @@ export default class GameOverScene extends Phaser.Scene {
 
         // Buttons
         const nextLevel = this.level + 1;
-        const hasNextLevel = nextLevel <= 2;
+        const hasNextLevel = false; // Only one level now
         
         if (hasNextLevel) {
             this.createButton(width / 2 - 220, height - 75, 'NEXT LEVEL ▶', '#00ff00', () => {
@@ -102,7 +102,7 @@ export default class GameOverScene extends Phaser.Scene {
             title.setText('🎉 QUEST COMPLETE! 🎉');
             
             // Personalized Message
-            const personalMsg = "Well done you have completed the quest,\nclick access invite to view wedding invitation";
+            const personalMsg = "Well done you have completed the quest,\nclick access invite using code 100426 to view your wedding invitation,\n dont forget to enter full name";
             this.add.text(width / 2, height - 160, personalMsg, {
                 fontFamily: '"Press Start 2P"',
                 fontSize: '14px',
@@ -168,7 +168,7 @@ export default class GameOverScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Level info
-        const levelLabel = this.level === 1 ? 'Nightclub' : `Park ${this.level - 1}`;
+        const levelLabel = 'The Park';
         this.add.text(width / 2, height / 2 + 10, `Level: ${levelLabel}`, {
             fontFamily: '"Press Start 2P"',
             fontSize: '18px',
@@ -233,7 +233,7 @@ export default class GameOverScene extends Phaser.Scene {
         const entriesToShow = levelEntries.length > 0 ? levelEntries : leaderboard.slice(0, 5);
         
         entriesToShow.forEach((entry, index) => {
-            const entryLvl = entry.level === 1 ? 'Club' : `Pk${entry.level - 1}`;
+            const entryLvl = 'Park';
             const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '  ';
             const entryText = `${medal} ${entry.name || playerName} - ${entry.time}s (${entryLvl})`;
             this.add.text(width / 2, 370 + (index * 35), entryText, {
