@@ -1,9 +1,9 @@
 {
   "name": "I Do Dash",
-  "revisionLabel": "Enhance mobile touch controls and button ergonomics",
+  "revisionLabel": "Reset leaderboard and implement touch controls with music",
   "description": "",
   "mode": "Universal",
-  "exportDate": "2026-03-06T23:39:10.659Z",
+  "exportDate": "2026-03-08T14:10:00.071Z",
   "assetCount": 33,
   "assetTypes": [
     "webp"

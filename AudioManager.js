@@ -90,7 +90,17 @@ class AudioManager {
         const now = Tone.now();
         Tone.Transport.cancel();
         
-        if (level === 1) { // Nightclub - Energetic techno
+        if (level === 0) { // Menu - Light and celebratory
+            Tone.Transport.bpm.value = 100;
+            const bassSeq = new Tone.Sequence((time, note) => {
+                this.bassSynth.triggerAttackRelease(note, "8n", time);
+            }, ["C2", "G2", "C2", "G2"], "4n").start(0);
+
+            const melSeq = new Tone.Sequence((time, note) => {
+                if (note) this.melodySynth.triggerAttackRelease(note, "4n", time);
+            }, ["E4", "G4", "C5", "G4", "F4", "A4", "D5", "B4"], "2n").start(0);
+        }
+        else if (level === 1) { // Nightclub - Energetic techno
             Tone.Transport.bpm.value = 128;
             const sequence = new Tone.Sequence((time, note) => {
                 this.drumSynth.triggerAttackRelease(note, "8n", time);
